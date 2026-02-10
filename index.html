@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vivek… Be My Valentine 💘</title>
+  <style>
+    body {
+      font-family: "Comic Sans MS", cursive;
+      background: linear-gradient(135deg, #ffdde1, #fff1f5);
+      text-align: center;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      color: #ff4d6d;
+    }
+
+    #container {
+      position: relative;
+      width: 400px;
+      height: 300px;
+    }
+
+    button {
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    #yes {
+      background: #ff4d6d;
+      color: white;
+      font-size: 22px;
+      padding: 14px 28px;
+    }
+
+    #no {
+      background: #6c757d;
+      color: white;
+      position: absolute;
+      left: 220px;
+      top: 140px;
+      font-size: 18px;
+      padding: 10px 20px;
+    }
+
+    #message, #counter {
+      margin-top: 15px;
+      font-size: 16px;
+      color: #6c757d;
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <h1>Vivek… will you be my Valentine? 💖</h1>
+
+    <div id="container">
+      <button id="yes" onclick="yesClicked()">Yes 💘</button>
+      <button id="no" onmouseover="noHovered()">No 🙄</button>
+    </div>
+
+    <div id="message"></div>
+    <div id="counter"></div>
+  </div>
+
+  <script>
+    const roasts = [
+      "Nice try, Vivek 😌",
+      "Vivek… be serious.",
+      "That button is fake, Vivek",
+      "Absolutely not allowed",
+      "Wrong answer, Vivek 💀",
+      "Why are you like this?",
+      "The audacity, Vivek"
+    ];
+
+    let yesSize = 22;
+    let noCount = 0;
+
+    function noHovered() {
+      const noBtn = document.getElementById("no");
+      const yesBtn = document.getElementById("yes");
+      const msg = document.getElementById("message");
+      const counter = document.getElementById("counter");
+
+      noBtn.style.left = Math.random() * 280 + "px";
+      noBtn.style.top = Math.random() * 180 + "px";
+
+      yesSize += 6;
+      yesBtn.style.fontSize = yesSize + "px";
+      yesBtn.style.padding = yesSize / 1.4 + "px";
+
+      msg.innerText = roasts[Math.floor(Math.random() * roasts.length)];
+
+      noCount++;
+      counter.innerText = `Vivek tried to say no ${noCount} times`;
+    }
+
+    function yesClicked() {
+      document.body.innerHTML = `
+        <div style="text-align:center;">
+          <h1 style="color:#ff4d6d;">YAYYYY 🥰💐</h1>
+          <p>I knew it, Vivek 😌</p>
+          <p>Happy Valentine’s Day 💖</p>
+          <p>Now come here 👉👈</p>
+        </div>
+      `;
+      confetti();
+    }
+
+    function confetti() {
+      for (let i = 0; i < 80; i++) {
+        const conf = document.createElement("div");
+        conf.style.position = "fixed";
+        conf.style.top = "-10px";
+        conf.style.left = Math.random() * window.innerWidth + "px";
+        conf.style.width = "8px";
+        conf.style.height = "8px";
+        conf.style.backgroundColor = ["#ff4d6d","#ffd166","#06d6a0","#4dabf7"][Math.floor(Math.random()*4)];
+        conf.style.animation = "fall 3s linear";
+        document.body.appendChild(conf);
+
+        setTimeout(() => conf.remove(), 3000);
+      }
+    }
+  </script>
+
+  <style>
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+
+</body>
+</html>
