@@ -30,7 +30,6 @@ h1 {
   justify-content: center;
   gap: 20px;
   margin-top: 20px;
-  height: 80px;
 }
 
 button {
@@ -42,11 +41,8 @@ button {
   box-sizing: border-box;
   font-size: 22px;
   padding: 14px 30px;
-  min-width: 120px;
-  min-height: 60px;
-  flex: 1; /* make both same width initially */
-  max-width: 200px; /* limit growth */
-  overflow: hidden;
+  width: 150px;   /* fixed same width */
+  height: 60px;   /* fixed same height */
 }
 
 #yes {
@@ -93,15 +89,16 @@ button {
 const roasts = [
   "Nice try, Vivek 😌",
   "Be serious right now.",
-  "That option is decorative.",
+  "You still don't understand that this option is decorative.",
   "Wrong answer, unfortunately.",
   "Why are you fighting destiny?",
-  "Relax. This was decided already.",
+  "Relax. Try again with other option.",
   "You really think No will save you? 😏",
   "Fate has spoken, Vivek 💘"
 ];
 
-let yesFontSize = 22; // initial font size
+let yesWidth = 150;
+let yesHeight = 60;
 let noCount = 0;
 const maxNo = 7;
 let lastRoastIndex = -1;
@@ -138,12 +135,14 @@ function noClicked() {
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 
-  // Grow Yes safely
-  yesFontSize = Math.min(yesFontSize + 4, 40); // max 40px
-  yesBtn.style.fontSize = yesFontSize + "px";
+  // Grow Yes button
+  yesWidth = Math.min(yesWidth + 20, 250);
+  yesHeight = Math.min(yesHeight + 10, 100);
+  yesBtn.style.width = yesWidth + "px";
+  yesBtn.style.height = yesHeight + "px";
 
   msg.innerText = getRandomRoast();
-  counter.innerText = `Vivek tried to say no ${noCount} times`;
+  counter.innerText = `You have tried to say no ${noCount} times`;
 }
 
 function yesClicked() {
