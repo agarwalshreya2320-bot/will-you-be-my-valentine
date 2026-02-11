@@ -42,22 +42,23 @@ button {
   transition: all 0.2s ease;
   font-size: 22px;
   padding: 14px 30px;
-  max-width: 45%;
   white-space: nowrap;
+  box-sizing: border-box;
 }
 
 #yes {
   background: #ff4d6d;
   color: white;
   z-index: 2;
-  position: relative; /* stays in place */
+  position: relative;
+  max-width: 90%;
 }
 
 #no {
   background: #6c757d;
   color: white;
-  z-index: 3; /* always above yes */
-  position: fixed; /* absolute relative to viewport */
+  z-index: 3; /* always above Yes */
+  position: fixed; /* relative to viewport */
   left: calc(50% + 100px);
   top: 100px;
 }
@@ -137,9 +138,9 @@ function noClicked() {
   noBtn.style.top = y + "px";
 
   // Grow Yes safely
-  yesSize = Math.min(yesSize + 6, 80); // max 80px
+  yesSize = Math.min(yesSize + 6, 60); // max 60px font
   yesBtn.style.fontSize = yesSize + "px";
-  yesBtn.style.padding = yesSize / 1.3 + "px";
+  yesBtn.style.padding = Math.min(yesSize / 1.3, 40) + "px"; // max 40px padding
 
   msg.innerText = getRandomRoast();
   counter.innerText = `Vivek tried to say no ${noCount} times`;
