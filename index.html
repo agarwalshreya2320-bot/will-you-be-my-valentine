@@ -30,7 +30,6 @@ h1 {
   justify-content: center;
   gap: 20px;
   margin-top: 20px;
-  position: relative;
   height: 120px;
 }
 
@@ -41,15 +40,17 @@ button {
   transition: all 0.2s ease;
   white-space: nowrap;
   box-sizing: border-box;
+  font-size: 22px;
+  padding: 14px 30px;
+  min-width: 120px;  /* same width for both buttons initially */
+  min-height: 50px;  /* same height */
 }
 
 #yes {
   background: #ff4d6d;
   color: white;
   z-index: 2;
-  font-size: 22px;
-  padding: 12px 25px;
-  max-width: 200px; /* limit width */
+  max-width: 90%;    /* cannot grow beyond container */
   overflow: hidden;
 }
 
@@ -57,8 +58,6 @@ button {
   background: #6c757d;
   color: white;
   z-index: 3;
-  font-size: 22px;
-  padding: 12px 25px;
   position: fixed;
   left: calc(50% + 100px);
   top: 100px;
@@ -110,9 +109,8 @@ let lastRoastIndex = -1;
 
 function getRandomRoast() {
   let index;
-  do {
-    index = Math.floor(Math.random() * roasts.length);
-  } while (index === lastRoastIndex);
+  do { index = Math.floor(Math.random() * roasts.length); } 
+  while (index === lastRoastIndex);
   lastRoastIndex = index;
   return roasts[index];
 }
@@ -142,9 +140,9 @@ function noClicked() {
   noBtn.style.top = y + "px";
 
   // Grow Yes safely
-  yesFontSize = Math.min(yesFontSize + 6, 50); // max font 50px
+  yesFontSize = Math.min(yesFontSize + 6, 40); // max 40px font
   yesBtn.style.fontSize = yesFontSize + "px";
-  yesBtn.style.padding = "12px 25px";
+  yesBtn.style.padding = "14px 30px"; // keep padding same
 
   msg.innerText = getRandomRoast();
   counter.innerText = `Vivek tried to say no ${noCount} times`;
