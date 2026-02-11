@@ -56,7 +56,6 @@ button {
   position: relative;
 }
 
-/* NEW — controls heart growth smoothly */
 #heart {
   display: inline-block;
   transition: font-size 0.2s ease;
@@ -118,7 +117,6 @@ function getRandomRoast() {
 function noClicked() {
   const noBtn = document.getElementById("no");
   const yesBtn = document.getElementById("yes");
-  const heart = document.getElementById("heart");
   const msg = document.getElementById("message");
   const counter = document.getElementById("counter");
 
@@ -147,8 +145,10 @@ function noClicked() {
   yesBtn.style.width = yesWidth + "px";
   yesBtn.style.height = yesHeight + "px";
 
-  // NEW — grow heart slightly but keep inside button
-  heart.style.fontSize = Math.min(22 + (noCount * 2), 40) + "px";
+  // NEW — grow button text (Yes + heart) proportionally
+  const baseFontSize = 22;
+  const newFontSize = Math.min(baseFontSize + (noCount * 2), 40);
+  yesBtn.style.fontSize = newFontSize + "px";
 
   msg.innerText = getRandomRoast();
   counter.innerText = `You have tried to say no ${noCount} times`;
