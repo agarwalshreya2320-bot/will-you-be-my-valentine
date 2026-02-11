@@ -41,8 +41,8 @@ button {
   box-sizing: border-box;
   font-size: 22px;
   padding: 14px 30px;
-  width: 150px;   /* fixed same width */
-  height: 60px;   /* fixed same height */
+  width: 150px;
+  height: 60px;
 }
 
 #yes {
@@ -53,9 +53,7 @@ button {
 #no {
   background: #6c757d;
   color: white;
-  position: fixed;
-  left: calc(50% + 100px);
-  top: 150px;
+  position: relative; /* FIX: was fixed */
 }
 
 #message {
@@ -132,6 +130,8 @@ function noClicked() {
 
   const x = Math.random() * maxX;
   const y = Math.random() * maxY;
+
+  noBtn.style.position = "fixed"; /* FIX: becomes fixed only after first click */
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 
