@@ -3,66 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <title>Vivek… Be My Valentine 💘</title>
+
   <style>
     body {
       font-family: "Comic Sans MS", cursive;
       background: linear-gradient(135deg, #ffdde1, #fff1f5);
-      text-align: center;
-      height: 100vh;
       margin: 0;
+      height: 100vh;
+      overflow: hidden;
       display: flex;
       justify-content: center;
-      align-items: center;
-      overflow: hidden;
+      align-items: flex-start;
+      padding-top: 60px;
+      text-align: center;
     }
 
     h1 {
       color: #ff4d6d;
+      margin-bottom: 30px;
     }
 
-    #container {
+    #wrapper {
+      width: 100%;
+      max-width: 500px;
       position: relative;
-      width: 400px;
-      height: 300px;
+    }
+
+    #buttons {
+      margin-top: 20px;
+      height: 120px;
+      position: relative;
     }
 
     button {
       border: none;
-      border-radius: 14px;
+      border-radius: 16px;
       cursor: pointer;
       transition: all 0.2s ease;
+      position: absolute;
     }
 
     #yes {
       background: #ff4d6d;
       color: white;
       font-size: 22px;
-      padding: 14px 28px;
+      padding: 14px 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
     }
 
     #no {
       background: #6c757d;
       color: white;
-      position: absolute;
-      left: 220px;
-      top: 140px;
       font-size: 18px;
-      padding: 10px 20px;
+      padding: 10px 22px;
+      left: 60%;
+      top: 60px;
     }
 
-    #message, #counter {
-      margin-top: 15px;
+    #message {
+      margin-top: 160px;
+      font-size: 18px;
+      color: #6c757d;
+      min-height: 24px;
+    }
+
+    #counter {
+      margin-top: 10px;
       font-size: 16px;
       color: #6c757d;
     }
   </style>
 </head>
+
 <body>
 
-  <div>
+  <div id="wrapper">
     <h1>Vivek… will you be my Valentine? 💖</h1>
 
-    <div id="container">
+    <div id="buttons">
       <button id="yes" onclick="yesClicked()">Yes 💘</button>
       <button id="no" onmouseover="noHovered()">No 🙄</button>
     </div>
@@ -74,16 +94,16 @@
   <script>
     const roasts = [
       "Nice try, Vivek 😌",
-      "Vivek… be serious.",
-      "That button is fake, Vivek",
-      "Absolutely not allowed",
-      "Wrong answer, Vivek 💀",
-      "Why are you like this?",
-      "The audacity, Vivek"
+      "Be serious right now.",
+      "That option is decorative.",
+      "Wrong answer, unfortunately.",
+      "Why are you fighting destiny?",
+      "Relax. This was decided already."
     ];
 
     let yesSize = 22;
     let noCount = 0;
+    const maxNo = 7;
 
     function noHovered() {
       const noBtn = document.getElementById("no");
@@ -91,44 +111,56 @@
       const msg = document.getElementById("message");
       const counter = document.getElementById("counter");
 
-      noBtn.style.left = Math.random() * 280 + "px";
-      noBtn.style.top = Math.random() * 180 + "px";
+      noCount++;
 
-      yesSize += 6;
+      if (noCount >= maxNo) {
+        noBtn.style.display = "none";
+        msg.innerText =
+          "Stop. You don’t have the option to say no anymore 😌";
+        counter.innerText =
+          "It’s been 5 years already. Don’t struggle. You are trapped. 💘";
+        return;
+      }
+
+      const x = Math.random() * (window.innerWidth - 120);
+      const y = Math.random() * (window.innerHeight - 120);
+
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+
+      yesSize += 8;
       yesBtn.style.fontSize = yesSize + "px";
-      yesBtn.style.padding = yesSize / 1.4 + "px";
+      yesBtn.style.padding = yesSize / 1.3 + "px";
 
       msg.innerText = roasts[Math.floor(Math.random() * roasts.length)];
-
-      noCount++;
       counter.innerText = `Vivek tried to say no ${noCount} times`;
     }
 
     function yesClicked() {
       document.body.innerHTML = `
-        <div style="text-align:center;">
+        <div style="text-align:center; padding-top:100px;">
           <h1 style="color:#ff4d6d;">YAYYYY 🥰💐</h1>
           <p>I knew it, Vivek 😌</p>
           <p>Happy Valentine’s Day 💖</p>
-          <p>Now come here 👉👈</p>
+          <p>You’re officially stuck with me now.</p>
         </div>
       `;
       confetti();
     }
 
     function confetti() {
-      for (let i = 0; i < 80; i++) {
-        const conf = document.createElement("div");
-        conf.style.position = "fixed";
-        conf.style.top = "-10px";
-        conf.style.left = Math.random() * window.innerWidth + "px";
-        conf.style.width = "8px";
-        conf.style.height = "8px";
-        conf.style.backgroundColor = ["#ff4d6d","#ffd166","#06d6a0","#4dabf7"][Math.floor(Math.random()*4)];
-        conf.style.animation = "fall 3s linear";
-        document.body.appendChild(conf);
-
-        setTimeout(() => conf.remove(), 3000);
+      for (let i = 0; i < 100; i++) {
+        const c = document.createElement("div");
+        c.style.position = "fixed";
+        c.style.top = "-10px";
+        c.style.left = Math.random() * window.innerWidth + "px";
+        c.style.width = "8px";
+        c.style.height = "8px";
+        c.style.backgroundColor =
+          ["#ff4d6d","#ffd166","#06d6a0","#4dabf7"][Math.floor(Math.random()*4)];
+        c.style.animation = "fall 3s linear";
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 3000);
       }
     }
   </script>
