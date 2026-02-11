@@ -1,192 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Vivek… Be My Valentine 💘</title>
+<meta charset="UTF-8">
+<title>Vivek… Be My Valentine 💘</title>
+<style>
+body {
+  font-family: "Comic Sans MS", cursive;
+  background: linear-gradient(135deg, #ffdde1, #fff1f5);
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+  text-align: center;
+  cursor: default;
+}
 
-  <style>
-    body {
-      font-family: "Comic Sans MS", cursive;
-      background: linear-gradient(135deg, #ffdde1, #fff1f5);
-      margin: 0;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding-top: 60px;
-      text-align: center;
-    }
+h1 {
+  color: #ff4d6d;
+  margin-top: 40px;
+  font-size: 28px;
+}
 
-    h1 {
-      color: #ff4d6d;
-      margin-bottom: 30px;
-      font-size: 28px;
-    }
+#wrapper {
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+  padding-bottom: 300px;
+}
 
-    #wrapper {
-      width: 100%;
-      max-width: 500px;
-      position: relative;
-      overflow: hidden; /* prevents yes overflowing */
-      padding-bottom: 300px; /* space for message */
-    }
+#buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+  position: relative;
+  height: 100px;
+}
 
-    #buttons {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 20px;
-      height: 100px;
-      position: relative;
-    }
+button {
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 22px;
+  padding: 14px 30px;
+  max-width: 45%;
+  white-space: nowrap;
+}
 
-    button {
-      border: none;
-      border-radius: 16px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-size: 22px;
-      padding: 14px 30px;
-      max-width: 45%;
-      word-wrap: break-word;
-      z-index: 1;
-      position: relative;
-    }
+#yes {
+  background: #ff4d6d;
+  color: white;
+  z-index: 2;
+  position: absolute; /* needed for cursor following */
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+}
 
-    #yes {
-      background: #ff4d6d;
-      color: white;
-      z-index: 2; /* Always on top */
-    }
+#no {
+  background: #6c757d;
+  color: white;
+  z-index: 2;
+  position: fixed; /* ensures it never goes behind anything */
+  left: calc(50% + 100px);
+  top: 100px;
+}
 
-    #no {
-      background: #6c757d;
-      color: white;
-      z-index: 1;
-    }
+#message {
+  margin-top: 220px;
+  font-size: 22px;  
+  color: #6c757d;
+  min-height: 28px;
+}
 
-    #message {
-      margin-top: 220px;
-      font-size: 22px;  
-      color: #6c757d;
-      min-height: 28px;
-    }
-
-    #counter {
-      margin-top: 15px;
-      font-size: 22px;
-      color: #6c757d;
-    }
-  </style>
+#counter {
+  margin-top: 15px;
+  font-size: 22px;
+  color: #6c757d;
+}
+</style>
 </head>
-
 <body>
+<div id="wrapper">
+<h1>Vivek… will you be my Valentine? 💖</h1>
 
-  <div id="wrapper">
-    <h1>Vivek… will you be my Valentine? 💖</h1>
+<div id="buttons">
+  <button id="yes" onclick="yesClicked()">Yes 💘</button>
+  <button id="no" onclick="noClicked()">No 🙄</button>
+</div>
 
-    <div id="buttons">
-      <button id="yes" onclick="yesClicked()">Yes 💘</button>
-      <button id="no" onclick="noClicked()">No 🙄</button>
+<div id="message"></div>
+<div id="counter"></div>
+</div>
+
+<script>
+const roasts = [
+  "Nice try, Vivek 😌",
+  "Be serious right now.",
+  "That option is decorative.",
+  "Wrong answer, unfortunately.",
+  "Why are you fighting destiny?",
+  "Relax. This was decided already."
+];
+
+let yesSize = 22;
+let noCount = 0;
+const maxNo = 7;
+
+// Track mouse for Yes follow
+let mouseX = window.innerWidth / 2;
+let mouseY = window.innerHeight / 2;
+
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+
+function noClicked() {
+  const noBtn = document.getElementById("no");
+  const yesBtn = document.getElementById("yes");
+  const msg = document.getElementById("message");
+  const counter = document.getElementById("counter");
+
+  noCount++;
+
+  if (noCount > maxNo) {
+    noBtn.style.display = "none";
+    msg.innerText = "Stop. You don’t have the option to say no anymore 😌";
+    counter.innerText = "It’s been 5 years already. Don’t struggle. You are trapped. 💘";
+    return;
+  }
+
+  // Move No inside viewport
+  const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+  const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+
+  // Grow Yes safely
+  yesSize += 6;
+  yesBtn.style.fontSize = yesSize + "px";
+  yesBtn.style.padding = yesSize / 1.3 + "px";
+  yesBtn.style.maxWidth = "90%";
+  yesBtn.style.whiteSpace = "nowrap";
+
+  msg.innerText = roasts[Math.floor(Math.random() * roasts.length)];
+  counter.innerText = `Vivek tried to say no ${noCount} times`;
+}
+
+// Smoothly follow cursor for Yes
+function animateYes() {
+  const yesBtn = document.getElementById("yes");
+  const rect = yesBtn.getBoundingClientRect();
+  const dx = mouseX - (rect.left + rect.width/2);
+  const dy = mouseY - (rect.top + rect.height/2);
+  yesBtn.style.left = rect.left + dx * 0.05 + "px";
+  yesBtn.style.top = rect.top + dy * 0.05 + "px";
+  requestAnimationFrame(animateYes);
+}
+animateYes();
+
+function yesClicked() {
+  document.body.innerHTML = `
+    <div style="text-align:center; padding-top:100px;">
+      <h1 style="color:#ff4d6d;">YAYYYY 🥰💐</h1>
+      <p>I knew it, Vivek 😌</p>
+      <p>Happy Valentine’s Day 💖</p>
+      <p>You’re officially stuck with me now.</p>
     </div>
+  `;
+  confetti();
+}
 
-    <div id="message"></div>
-    <div id="counter"></div>
-  </div>
+function confetti() {
+  for (let i=0;i<100;i++){
+    const c=document.createElement("div");
+    c.style.position="fixed";
+    c.style.top="-10px";
+    c.style.left=Math.random()*window.innerWidth+"px";
+    c.style.width="8px";
+    c.style.height="8px";
+    c.style.backgroundColor=["#ff4d6d","#ffd166","#06d6a0","#4dabf7"][Math.floor(Math.random()*4)];
+    c.style.animation="fall 3s linear";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
+  }
+}
+</script>
 
-  <script>
-    const roasts = [
-      "Nice try, Vivek 😌",
-      "Be serious right now.",
-      "That option is decorative.",
-      "Wrong answer, unfortunately.",
-      "Why are you fighting destiny?",
-      "Relax. This was decided already."
-    ];
-
-    let yesSize = 22;
-    let noCount = 0;
-    const maxNo = 7;
-
-    function noClicked() {
-      const noBtn = document.getElementById("no");
-      const yesBtn = document.getElementById("yes");
-      const msg = document.getElementById("message");
-      const counter = document.getElementById("counter");
-
-      noCount++;
-
-      if (noCount > maxNo) {
-        noBtn.style.display = "none";
-        msg.innerText =
-          "Stop. You don’t have the option to say no anymore 😌";
-        counter.innerText =
-          "It’s been 5 years already. Don’t struggle. You are trapped. 💘";
-        return;
-      }
-
-      // Ensure No stays inside viewport
-      noBtn.style.position = "absolute";
-      const viewportWidth = window.innerWidth;
-      const viewportHeight = window.innerHeight;
-
-      const maxX = viewportWidth - noBtn.offsetWidth - 20;
-      const maxY = viewportHeight - noBtn.offsetHeight - 20;
-
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
-      noBtn.style.left = x + "px";
-      noBtn.style.top = y + "px";
-
-      // Grow Yes but limit its container
-      yesSize += 6;
-      yesBtn.style.fontSize = yesSize + "px";
-      yesBtn.style.padding = yesSize / 1.3 + "px";
-      yesBtn.style.maxWidth = "90%"; // allow bigger growth
-      yesBtn.style.whiteSpace = "nowrap"; // prevent breaking
-
-      msg.innerText = roasts[Math.floor(Math.random() * roasts.length)];
-      counter.innerText = `Vivek tried to say no ${noCount} times`;
-    }
-
-    function yesClicked() {
-      document.body.innerHTML = `
-        <div style="text-align:center; padding-top:100px;">
-          <h1 style="color:#ff4d6d;">YAYYYY 🥰💐</h1>
-          <p>I knew it, Vivek 😌</p>
-          <p>Happy Valentine’s Day 💖</p>
-          <p>You’re officially stuck with me now.</p>
-        </div>
-      `;
-      confetti();
-    }
-
-    function confetti() {
-      for (let i = 0; i < 100; i++) {
-        const c = document.createElement("div");
-        c.style.position = "fixed";
-        c.style.top = "-10px";
-        c.style.left = Math.random() * window.innerWidth + "px";
-        c.style.width = "8px";
-        c.style.height = "8px";
-        c.style.backgroundColor =
-          ["#ff4d6d","#ffd166","#06d6a0","#4dabf7"][Math.floor(Math.random()*4)];
-        c.style.animation = "fall 3s linear";
-        document.body.appendChild(c);
-        setTimeout(() => c.remove(), 3000);
-      }
-    }
-  </script>
-
-  <style>
-    @keyframes fall {
-      to {
-        transform: translateY(100vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
-  </style>
-
+<style>
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+</style>
 </body>
 </html>
