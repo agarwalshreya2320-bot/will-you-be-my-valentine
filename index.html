@@ -53,7 +53,13 @@ button {
 #no {
   background: #6c757d;
   color: white;
-  position: relative; /* FIX: was fixed */
+  position: relative;
+}
+
+/* NEW — controls heart growth smoothly */
+#heart {
+  display: inline-block;
+  transition: font-size 0.2s ease;
 }
 
 #message {
@@ -75,7 +81,7 @@ button {
 <h1>Vivek… will you be my Valentine? 💖</h1>
 
 <div id="buttons">
-  <button id="yes" onclick="yesClicked()">Yes 💘</button>
+  <button id="yes" onclick="yesClicked()">Yes <span id="heart">💘</span></button>
   <button id="no" onclick="noClicked()">No 🙄</button>
 </div>
 
@@ -112,6 +118,7 @@ function getRandomRoast() {
 function noClicked() {
   const noBtn = document.getElementById("no");
   const yesBtn = document.getElementById("yes");
+  const heart = document.getElementById("heart");
   const msg = document.getElementById("message");
   const counter = document.getElementById("counter");
 
@@ -124,14 +131,13 @@ function noClicked() {
     return;
   }
 
-  // Move No inside viewport
   const maxX = window.innerWidth - noBtn.offsetWidth - 20;
   const maxY = window.innerHeight - noBtn.offsetHeight - 20;
 
   const x = Math.random() * maxX;
   const y = Math.random() * maxY;
 
-  noBtn.style.position = "fixed"; /* FIX: becomes fixed only after first click */
+  noBtn.style.position = "fixed";
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
 
@@ -140,6 +146,9 @@ function noClicked() {
   yesHeight = Math.min(yesHeight + 10, 100);
   yesBtn.style.width = yesWidth + "px";
   yesBtn.style.height = yesHeight + "px";
+
+  // NEW — grow heart slightly but keep inside button
+  heart.style.fontSize = Math.min(22 + (noCount * 2), 40) + "px";
 
   msg.innerText = getRandomRoast();
   counter.innerText = `You have tried to say no ${noCount} times`;
